@@ -1,0 +1,14 @@
+{
+    "job_id": "wa_68d39eb993782527133047",
+    "saved_csv": "\/home\/asus\/Documents\/simple-projects\/broadcast-wapanels\/storage\/uploads\/wa_68d39eb993782527133047.csv",
+    "created_at": "2025-09-24 14:33:13",
+    "has_header": true,
+    "delimiter": ",",
+    "rate": 20,
+    "sandbox": "false",
+    "message": "Halo, selamat sore kak",
+    "total": 659,
+    "offset": 659,
+    "batch_size": 100,
+    "last_update": "2025-09-24 15:44:01"
+}
