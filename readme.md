@@ -1,6 +1,3 @@
-Berikut isi **`README.md`** dalam format Markdown. Tinggal salin-tempel ke file `README.md` di repo kamu.
-
-````markdown
 # WA Broadcast dari CSV (Batch + Resume)
 
 Tool PHP sederhana untuk broadcast WhatsApp dari file CSV **dengan aman**:
@@ -14,10 +11,12 @@ Tool PHP sederhana untuk broadcast WhatsApp dari file CSV **dengan aman**:
 - 🧪 **Dry-run** (preview tanpa kirim) & **Sandbox** (jika didukung provider)
 
 > Implementasi contoh menggunakan endpoint **WAPanels**:
+>
 > ```
 > POST https://app.wapanels.com/api/create-message
 > fields: appkey, authkey, to, message, sandbox
 > ```
+>
 > Untuk provider lain, cukup sesuaikan fungsi `post_message()`.
 
 ---
@@ -86,15 +85,17 @@ Tool PHP sederhana untuk broadcast WhatsApp dari file CSV **dengan aman**:
 2. Jalankan lokal:
    ```bash
    php -S 127.0.0.1:8000
+   ```
+
 ````
 
 Buka: **[http://127.0.0.1:8000/broadcast.php](http://127.0.0.1:8000/broadcast.php)**
 
 > Script akan otomatis membuat:
 >
-> * `storage/uploads/` — CSV yang diunggah
-> * `storage/jobs/` — state job (JSON)
-> * `storage/logs/` — log lintas batch (CSV)
+> - `storage/uploads/` — CSV yang diunggah
+> - `storage/jobs/` — state job (JSON)
+> - `storage/logs/` — log lintas batch (CSV)
 
 ---
 
@@ -129,8 +130,8 @@ Budi,6281234567890
 Sari,081234567890
 ```
 
-* Centang **“CSV punya header?”** jika baris pertama adalah header.
-* Delimiter bisa **koma (,)**, **titik koma (;)**, atau **TAB**.
+- Centang **“CSV punya header?”** jika baris pertama adalah header.
+- Delimiter bisa **koma (,)**, **titik koma (;)**, atau **TAB**.
 
 ---
 
@@ -141,13 +142,14 @@ Sari,081234567890
 3. Pilih **Rate (pesan/menit)** dan **Batch size** (disarankan **100–150**).
 4. Tulis **Template Pesan** dengan placeholder:
 
-   * `{{name}}` → akan diganti nama penerima
-   * `{{phone}}` → akan diganti nomor penerima
+   - `{{name}}` → akan diganti nama penerima
+   - `{{phone}}` → akan diganti nomor penerima
      Contoh:
 
    ```
    Halo {{name}}, kami ingin menginformasikan promo terbaru...
    ```
+
 5. (Opsional) **Dry-run** untuk preview tanpa kirim.
 6. (Opsional) **Sandbox** bila provider mendukung mode uji.
 7. Klik **Mulai Job** → batch pertama diproses.
@@ -176,11 +178,11 @@ Perkiraan waktu untuk **650** kontak:
 
 ## Best Practice
 
-* Mulai dari **10–15 pesan/menit**; jika stabil, naik ke **20–25**.
-* Pakai **batch 100–150** agar aman dari timeout.
-* **Personalisasi** pesan (`{{name}}`) untuk kurangi flag spam.
-* Pastikan penerima **opt-in** / pernah interaksi (hindari spam).
-* Data nomor rapi → tingkatkan **deliverability**.
+- Mulai dari **10–15 pesan/menit**; jika stabil, naik ke **20–25**.
+- Pakai **batch 100–150** agar aman dari timeout.
+- **Personalisasi** pesan (`{{name}}`) untuk kurangi flag spam.
+- Pastikan penerima **opt-in** / pernah interaksi (hindari spam).
+- Data nomor rapi → tingkatkan **deliverability**.
 
 ---
 
@@ -199,10 +201,10 @@ wa-broadcast/
 
 ## Keamanan
 
-* **Jangan** commit `appkey`/`authkey` ke repo publik.
-* Batasi akses ke `broadcast.php` (IP allowlist/basic auth/admin area).
-* Pastikan permission `storage/` **writeable** hanya oleh web user.
-* Patuhi kebijakan & hukum anti-spam: kirim ke **kontak opt-in**.
+- **Jangan** commit `appkey`/`authkey` ke repo publik.
+- Batasi akses ke `broadcast.php` (IP allowlist/basic auth/admin area).
+- Pastikan permission `storage/` **writeable** hanya oleh web user.
+- Patuhi kebijakan & hukum anti-spam: kirim ke **kontak opt-in**.
 
 ---
 
@@ -210,33 +212,33 @@ wa-broadcast/
 
 **1) “CSV gagal di-upload”**
 
-* Cek `upload_max_filesize` & `post_max_size` (mis. `16M`) di `php.ini`.
-* Cek permission `storage/` (contoh `chmod -R 775 storage`).
+- Cek `upload_max_filesize` & `post_max_size` (mis. `16M`) di `php.ini`.
+- Cek permission `storage/` (contoh `chmod -R 775 storage`).
 
 **2) “CSV tidak bisa dibuka / log tidak muncul”**
 
-* Pastikan file CSV (bukan `.xlsx`).
-* Cek delimiter (`,`, `;`, atau `TAB`).
+- Pastikan file CSV (bukan `.xlsx`).
+- Cek delimiter (`,`, `;`, atau `TAB`).
 
 **3) Banyak status `FAILED`**
 
-* Periksa nomor: valid & aktif (tool normalisasi `0` → `62`).
-* Turunkan **rate** (mis. 10–15/menit), atau naikan **batch** bertahap.
-* Lihat `info` & **HTTP code**:
+- Periksa nomor: valid & aktif (tool normalisasi `0` → `62`).
+- Turunkan **rate** (mis. 10–15/menit), atau naikan **batch** bertahap.
+- Lihat `info` & **HTTP code**:
 
-  * `401/403` → cek `appkey/authkey`.
-  * `429` → rate limit; turunkan kecepatan.
-  * `5xx` → gangguan provider; ulang di batch berikutnya.
+  - `401/403` → cek `appkey/authkey`.
+  - `429` → rate limit; turunkan kecepatan.
+  - `5xx` → gangguan provider; ulang di batch berikutnya.
 
 **4) cURL error / timeout**
 
-* Jaringan/host lambat → turunkan rate & batch.
-* Boleh naikan `CURLOPT_TIMEOUT` jika perlu.
+- Jaringan/host lambat → turunkan rate & batch.
+- Boleh naikan `CURLOPT_TIMEOUT` jika perlu.
 
 **5) Putus koneksi saat proses**
 
-* Job ada di `storage/jobs/{job}.json`. Buka lagi halaman → **resume**.
-* Mau mulai job baru? Upload CSV baru & mulai lagi.
+- Job ada di `storage/jobs/{job}.json`. Buka lagi halaman → **resume**.
+- Mau mulai job baru? Upload CSV baru & mulai lagi.
 
 ---
 
@@ -288,3 +290,4 @@ Bebas dipakai untuk keperluan pribadi/komersial. Tetap patuhi aturan WhatsApp & 
 ## Kredit
 
 Didesain agar **aman**, **tahan timeout**, dan **mudah dioperasikan**—mulai dari CSV sederhana, rate control, hingga resume job & log rapi. Selamat berkarya! 🚀
+````
